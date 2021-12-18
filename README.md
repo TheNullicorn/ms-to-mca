@@ -3,7 +3,10 @@
 Simplifies the process of logging into [Minecraft services](https://wiki.vg/Mojang_API) on behalf of
 a Microsoft user. In order to use this library, you will need to create an app that interfaces with
 the [Microsoft Identity Platform][ms-openid]. The easiest way is using an implementation of the
-Microsoft Authentication Library ([MSAL][msal-overview])
+Microsoft Authentication Library ([MSAL][msal-overview]).
+
+When logging the user in, make sure to ask for the `XboxLive.signin` scope! It's required for
+logging in to Minecraft.
 
 ## Usage
 
@@ -24,12 +27,13 @@ A `MinecraftToken` has four attributes:
 
 - `type` (String) The authentication scheme to use the token with.
     - "scheme" refers to the word before the token when used in an `Authorization` header.
-    - e.g. if the scheme is `Bearer`, the header's value would look like `Bearer <VALUE>`
+    - e.g. if the scheme is `Bearer`, the header's value would look like `Bearer <VALUE>`<br><br>
 - `value` (String) The actual value of the token.
-    - This should be a valid JWT.
+    - This *should* be a valid JWT, but may not be if Minecraft ever decides to change the type of
+      token it uses.<br><br>
 - `user` (String) The UUID of the Minecraft account that the token is for.
     - This is **not** the same as the UUID of the player that belongs to the account.
-    - Unlike some UUIDs in Minecraft APIs, this one does have hyphens.
+    - This UUID *does* have hyphens, unlike UUIDs in other parts of Minecraft's APIs.<br><br>
 - `duration` (Int) The number of seconds that the token will last for after its creation.
 
 ### Login via Xbox Live
