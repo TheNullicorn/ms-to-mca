@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform") version "1.6.10"
 }
 
-group = "me.nullicorn.ooze"
+group = "me.nullicorn"
 version = "0.0.1-SNAPSHOT"
 
 repositories {
