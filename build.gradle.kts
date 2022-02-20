@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    kotlin("multiplatform") version "1.6.0"
+    kotlin("multiplatform") version "1.6.10"
 }
 
 group = "me.nullicorn.ooze"
