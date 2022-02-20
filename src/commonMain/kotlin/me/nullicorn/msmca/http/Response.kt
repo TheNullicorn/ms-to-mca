@@ -11,7 +11,7 @@ import me.nullicorn.msmca.json.*
  */
 data class Response(
     val status: Int,
-    val headers: me.nullicorn.msmca.http.Headers,
+    val headers: Headers,
     val body: String,
 ) {
     /**

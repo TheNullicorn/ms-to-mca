@@ -9,8 +9,7 @@ import me.nullicorn.msmca.xbox.XboxLiveToken
  *
  * @param[xboxToken] an Xbox Live [service token][XboxLiveAuth.getServiceToken].
  */
-internal class MinecraftXboxTokenRequest(xboxToken: XboxLiveToken) :
-    me.nullicorn.msmca.http.Request {
+internal class MinecraftXboxTokenRequest(xboxToken: XboxLiveToken) : Request {
     override val method = "POST"
 
     override val url = "https://api.minecraftservices.com/authentication/login_with_xbox"

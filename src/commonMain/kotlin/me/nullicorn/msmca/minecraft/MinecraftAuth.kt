@@ -3,7 +3,6 @@ package me.nullicorn.msmca.minecraft
 import me.nullicorn.msmca.AuthException
 import me.nullicorn.msmca.http.BuiltInHttpClient
 import me.nullicorn.msmca.http.HttpClient
-import me.nullicorn.msmca.http.HttpException
 import me.nullicorn.msmca.json.JsonMappingException
 import me.nullicorn.msmca.xbox.XboxLiveAuth
 import me.nullicorn.msmca.xbox.XboxLiveToken
@@ -11,10 +10,10 @@ import me.nullicorn.msmca.xbox.XboxLiveToken
 /**
  * Provides methods for authenticating with Minecraft-related services.
  */
-class MinecraftAuth internal constructor(private val httpClient: me.nullicorn.msmca.http.HttpClient) {
+class MinecraftAuth internal constructor(private val httpClient: HttpClient) {
     private val xbox = XboxLiveAuth()
 
-    constructor() : this(me.nullicorn.msmca.http.BuiltInHttpClient)
+    constructor() : this(BuiltInHttpClient)
 
     /**
      * Exchanges an Xbox Live [service token][XboxLiveAuth.getServiceToken] for a Minecraft access
@@ -34,7 +33,7 @@ class MinecraftAuth internal constructor(private val httpClient: me.nullicorn.ms
             httpClient.send(request)
         } catch (cause: me.nullicorn.msmca.http.HttpException) {
             // Caught if the request itself fails.
-            throw me.nullicorn.msmca.AuthException("Failed to request user credentials", cause)
+            throw AuthException("Failed to request user credentials", cause)
         }
 
         // If the response code isn't 2xx, attempt to read the error's details.
@@ -53,11 +52,11 @@ class MinecraftAuth internal constructor(private val httpClient: me.nullicorn.ms
             MinecraftToken(response.asJsonObject())
         } catch (cause: JsonMappingException) {
             // Caught if the response fails to parse as JSON.
-            throw me.nullicorn.msmca.AuthException("Malformed response from Minecraft servers",
+            throw AuthException("Malformed response from Minecraft servers",
                 cause)
         } catch (cause: IllegalArgumentException) {
             // Caught if the response parses, but doesn't contain required fields.
-            throw me.nullicorn.msmca.AuthException("Minecraft did not send a valid token", cause)
+            throw AuthException("Minecraft did not send a valid token", cause)
         }
     }
 
@@ -76,14 +75,14 @@ class MinecraftAuth internal constructor(private val httpClient: me.nullicorn.ms
 
         val userToken = try {
             xbox.getUserToken(microsoftToken)
-        } catch (cause: me.nullicorn.msmca.AuthException) {
-            throw me.nullicorn.msmca.AuthException("Failed to fetch a user token", cause)
+        } catch (cause: AuthException) {
+            throw AuthException("Failed to fetch a user token", cause)
         }
 
         val xstsToken = try {
             xbox.getServiceToken(userToken.value)
-        } catch (cause: me.nullicorn.msmca.AuthException) {
-            throw me.nullicorn.msmca.AuthException("Failed to fetch a service token", cause)
+        } catch (cause: AuthException) {
+            throw AuthException("Failed to fetch a service token", cause)
         }
 
         return login(xstsToken)

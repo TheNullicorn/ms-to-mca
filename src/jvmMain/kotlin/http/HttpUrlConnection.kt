@@ -16,7 +16,7 @@ import java.net.HttpURLConnection
  *
  * @param[options] The request whose options should be applied to the connection.
  */
-internal fun HttpURLConnection.configure(options: me.nullicorn.msmca.http.Request) {
+internal fun HttpURLConnection.configure(options: Request) {
 
     // Set the request's method (e.g. GET or POST).
     requestMethod = options.method.uppercase()
@@ -48,7 +48,7 @@ internal fun HttpURLConnection.configure(options: me.nullicorn.msmca.http.Reques
  *
  * @throws[HttpException] if the connection fails, or if the server sends a malformed response.
  */
-internal val HttpURLConnection.response: me.nullicorn.msmca.http.Response
+internal val HttpURLConnection.response: Response
     get() {
         // Connect, catching any errors that occur.
         val error = try {
@@ -62,15 +62,15 @@ internal val HttpURLConnection.response: me.nullicorn.msmca.http.Response
 
         // If the connection didn't turn up a status code, then rethrow whatever connect() threw.
         if (responseCode == -1) {
-            throw me.nullicorn.msmca.http.HttpException("HTTP request failed",
+            throw HttpException("HTTP request failed",
                 cause = error as? Throwable)
         }
 
         // Parse the response headers & body, then wrap them in our Response class.
         return try {
-            me.nullicorn.msmca.http.Response(responseCode, responseHeaders, responseBody)
+            Response(responseCode, responseHeaders, responseBody)
         } catch (cause: IOException) {
-            throw me.nullicorn.msmca.http.HttpException("HTTP response could not be parsed", cause)
+            throw HttpException("HTTP response could not be parsed", cause)
         }
     }
 
@@ -80,7 +80,7 @@ internal val HttpURLConnection.response: me.nullicorn.msmca.http.Response
  * Should be used instead of [headerFields][HttpURLConnection.getHeaderFields], which returns *all*
  * values sent for each header.
  */
-private val HttpURLConnection.responseHeaders: me.nullicorn.msmca.http.Headers
+private val HttpURLConnection.responseHeaders: Headers
     get() = headerFields.let { original ->
         buildMap {
             for ((name, values) in original.entries) put(name ?: "", values.first())

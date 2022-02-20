@@ -1,13 +1,12 @@
 package me.nullicorn.msmca.util
 
-import java.net.MalformedURLException
-import java.net.URL
+import org.w3c.dom.url.URL
 
 internal actual val String.isUrl: Boolean
     get() = try {
         URL(this)
         // If nothing was thrown, it's a good URL.
         true
-    } catch (cause: MalformedURLException) {
+    } catch (cause: Throwable) {
         false
     }

@@ -7,7 +7,6 @@ package me.nullicorn.msmca.json
  * expected.
  */
 internal object EmptyJsonObjectView : JsonObjectView {
-    override val keys: Iterable<String> = emptySet()
 
     override fun get(key: String): Nothing? = null
 

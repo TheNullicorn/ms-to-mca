@@ -6,11 +6,6 @@ package me.nullicorn.msmca.json
 internal interface JsonObjectView {
 
     /**
-     * All valid keys that can be passed to any of this interface's [getters][get].
-     */
-    val keys: Iterable<String>
-
-    /**
      * Retrieves the value within the object that's associated with the [key].
      *
      * For [strings][String], [numbers][Number], and [booleans][Boolean], (JSON "primitives") this

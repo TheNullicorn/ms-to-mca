@@ -21,6 +21,11 @@ kotlin {
         }
     }
 
+    js(BOTH) {
+        nodejs()
+        browser()
+    }
+
     sourceSets {
         val commonMain by getting {}
 
@@ -28,6 +33,13 @@ kotlin {
             dependencies {
                 // Used internally for JSON serializing & deserializing.
                 implementation("com.google.code.gson:gson:2.8.9")
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                // Used internally to send requests to Microsoft/Minecraft services.
+                implementation(npm("sync-fetch", "^0.3.1"))
             }
         }
     }

@@ -21,7 +21,7 @@ interface Request {
     /**
      * The HTTP [Headers] that should be sent before the request's [body].
      */
-    val headers: me.nullicorn.msmca.http.Headers
+    val headers: Headers
         get() = emptyMap()
 
     /**

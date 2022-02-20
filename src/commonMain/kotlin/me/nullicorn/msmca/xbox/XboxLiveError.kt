@@ -132,7 +132,7 @@ enum class XboxLiveError {
  *
  * If the response doesn't represent an error, `null` is returned.
  */
-internal val me.nullicorn.msmca.http.Response.xboxLiveError: XboxLiveError?
+internal val Response.xboxLiveError: XboxLiveError?
     get() {
         if (isSuccess) return null
 

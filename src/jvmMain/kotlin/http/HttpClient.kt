@@ -9,9 +9,9 @@ import java.net.URL
 /**
  * Java implementation of an HTTP client, using the built-in [HttpURLConnection] class.
  */
-internal actual object BuiltInHttpClient : me.nullicorn.msmca.http.HttpClient {
+internal actual object BuiltInHttpClient : HttpClient {
 
-    actual override fun send(request: me.nullicorn.msmca.http.Request): me.nullicorn.msmca.http.Response {
+    actual override fun send(request: Request): Response {
         // Get request.url once so that this client can't be tricked by the getter.
         // (e.g. the getter returns a valid url for this check, but not for the actual request).
         val url = request.url
@@ -21,7 +21,7 @@ internal actual object BuiltInHttpClient : me.nullicorn.msmca.http.HttpClient {
         val connection = try {
             URL(url).openHttpConnection()
         } catch (cause: MalformedURLException) {
-            throw me.nullicorn.msmca.http.HttpException("Invalid URL: \"$url\"", cause)
+            throw HttpException("Invalid URL: \"$url\"", cause)
         }
 
         // Add the request's method, headers, and body to the connection.
@@ -46,7 +46,7 @@ internal actual object BuiltInHttpClient : me.nullicorn.msmca.http.HttpClient {
 private fun URL.openHttpConnection(): HttpURLConnection {
     val scheme = protocol.lowercase()
     if (scheme != "https" && scheme != "http") {
-        throw me.nullicorn.msmca.http.HttpException("URL must use scheme https or http, not $scheme")
+        throw HttpException("URL must use scheme https or http, not $scheme")
     }
 
     try {
@@ -54,10 +54,10 @@ private fun URL.openHttpConnection(): HttpURLConnection {
 
     } catch (cause: IOException) {
         // Caught if the connection could not be created.
-        throw me.nullicorn.msmca.http.HttpException("Failed to open connection to $this", cause)
+        throw HttpException("Failed to open connection to $this", cause)
 
     } catch (cause: ClassCastException) {
         // Caught if the connection cannot be cast to HttpUrlConnection.
-        throw me.nullicorn.msmca.http.HttpException("Connection created for wrong protocol", cause)
+        throw HttpException("Connection created for wrong protocol", cause)
     }
 }

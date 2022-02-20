@@ -14,7 +14,7 @@ internal data class XboxLiveTokenRequest(
     val endpoint: String,
     val relyingParty: String,
     val properties: Map<String, Any?>,
-) : me.nullicorn.msmca.http.Request {
+) : Request {
     override val url: String
         get() = "https://$context.auth.xboxlive.com/$context/$endpoint"
 

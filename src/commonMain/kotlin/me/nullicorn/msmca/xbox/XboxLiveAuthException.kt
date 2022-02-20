@@ -8,4 +8,4 @@ import me.nullicorn.msmca.AuthException
  * The [reason] value can be used to present a message to the end user.
  */
 class XboxLiveAuthException(val reason: XboxLiveError = XboxLiveError.UNKNOWN) :
-    me.nullicorn.msmca.AuthException("Xbox Live returned an error: $reason")
+    AuthException("Xbox Live returned an error: $reason")

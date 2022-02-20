@@ -9,4 +9,4 @@ import me.nullicorn.msmca.AuthException
  * typically *not* a user-friendly message.
  */
 class MinecraftAuthException(val type: String?, override val cause: Throwable? = null) :
-    me.nullicorn.msmca.AuthException("Xbox Live returned an error: $type")
+    AuthException("Xbox Live returned an error: $type")

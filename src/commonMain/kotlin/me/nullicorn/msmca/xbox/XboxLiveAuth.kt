@@ -3,7 +3,6 @@ package me.nullicorn.msmca.xbox
 import me.nullicorn.msmca.AuthException
 import me.nullicorn.msmca.http.BuiltInHttpClient
 import me.nullicorn.msmca.http.HttpClient
-import me.nullicorn.msmca.http.HttpException
 import me.nullicorn.msmca.json.JsonMappingException
 
 /**
@@ -12,9 +11,9 @@ import me.nullicorn.msmca.json.JsonMappingException
  * @see <a href="https://wiki.vg/Microsoft_Authentication_Scheme">wiki.vg - Microsoft Authentication
  * Scheme</a> - heavily referenced when writing this class.
  */
-class XboxLiveAuth internal constructor(private val httpClient: me.nullicorn.msmca.http.HttpClient) {
+class XboxLiveAuth internal constructor(private val httpClient: HttpClient) {
 
-    constructor() : this(me.nullicorn.msmca.http.BuiltInHttpClient)
+    constructor() : this(BuiltInHttpClient)
 
     /**
      * Exchanges a Microsoft access token for an Xbox Live user token.
@@ -51,7 +50,7 @@ class XboxLiveAuth internal constructor(private val httpClient: me.nullicorn.msm
             httpClient.send(request)
         } catch (cause: me.nullicorn.msmca.http.HttpException) {
             // Caught if the request itself fails.
-            throw me.nullicorn.msmca.AuthException("Failed to request user credentials", cause)
+            throw AuthException("Failed to request user credentials", cause)
         }
 
         // If the response code isn't 2xx, attempt to read the error's details.
@@ -63,19 +62,19 @@ class XboxLiveAuth internal constructor(private val httpClient: me.nullicorn.msm
             response.asJsonObject()
         } catch (cause: JsonMappingException) {
             // Caught if the response cannot be parsed as JSON.
-            throw me.nullicorn.msmca.AuthException("Malformed response from Xbox servers", cause)
+            throw AuthException("Malformed response from Xbox servers", cause)
         }
 
         // Get the user/service token from the response.
         val token: String = respJson["Token"] as? String
-            ?: throw me.nullicorn.msmca.AuthException("Xbox did not send an access token, or it was not a string")
+            ?: throw AuthException("Xbox did not send an access token, or it was not a string")
 
         // Get the user hash from the response (from DisplayClaims.xui[0].uhs).
         val userHash: String = respJson.getObject("DisplayClaims")
             ?.getArray("xui")
             ?.getObject(0)
             ?.getString("uhs")
-            ?: throw me.nullicorn.msmca.AuthException("Xbox did not send a user hash, or it was not a string")
+            ?: throw AuthException("Xbox did not send a user hash, or it was not a string")
 
         return XboxLiveToken(token, userHash)
     }
