@@ -1,7 +1,6 @@
 package me.nullicorn.msmca.xbox
 
 import me.nullicorn.msmca.AuthException
-import me.nullicorn.msmca.http.MockHttpClient
 import me.nullicorn.msmca.mock.*
 import me.nullicorn.msmca.util.*
 import kotlin.js.JsName
@@ -212,10 +211,7 @@ class XboxLiveAuthTests {
             value = MockTokens.SIMPLE,
             user = (PI * 100_000).toInt().toString(),
         )
-        http.nextResponse = MutableResponse(
-            token = userToken.value,
-            userHash = userToken.user,
-        ).toResponse()
+        http.nextResponse = MockResponses.Xbox.validForToken(userToken)
 
         val actualUserToken = xbox.getUserToken("my.access.token")
         assertEquals(userToken.value, actualUserToken.value)
@@ -228,16 +224,11 @@ class XboxLiveAuthTests {
             value = userToken.value.reversed(),
             user = userToken.user.reversed(),
         )
-        http.nextResponse = MutableResponse(
-            token = serviceToken.value,
-            userHash = serviceToken.user,
-        ).toResponse()
+        http.nextResponse = MockResponses.Xbox.validForToken(serviceToken)
 
         val actualServiceToken = xbox.getServiceToken("your.access.token")
         assertEquals(serviceToken.value, actualServiceToken.value)
         assertEquals(serviceToken.user, actualServiceToken.user)
         assertEquals(serviceToken, actualServiceToken)
     }
-
-    // TODO: 2/21/22 Test that the returned XboxLiveToken has the correct token & user hash.
 }

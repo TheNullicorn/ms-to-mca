@@ -1,4 +1,9 @@
-package me.nullicorn.msmca.http
+package me.nullicorn.msmca.mock
+
+import me.nullicorn.msmca.http.HttpClient
+import me.nullicorn.msmca.http.HttpException
+import me.nullicorn.msmca.http.Request
+import me.nullicorn.msmca.http.Response
 
 /**
  * A fake HTTP client whose responses can be manipulated based on the feature being tested.
