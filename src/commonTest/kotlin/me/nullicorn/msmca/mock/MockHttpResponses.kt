@@ -139,10 +139,8 @@ object MockResponses {
                     }
                 }
             """,
-        ).map {
-            validBut { response ->
-                response.body = it.trimIndent()
-            }
+        ).map { body ->
+            validBut { it.body = body.trimIndent() }
         }
     }
 }
