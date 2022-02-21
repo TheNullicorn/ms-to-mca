@@ -98,6 +98,26 @@ enum class XboxLiveError {
     SERVICE_TOKEN_INVALID;
 
     internal companion object {
+        internal val errorsByCode: Map<Long?, XboxLiveError> = mapOf(
+            null to UNKNOWN,
+
+            // User errors.
+            0x8015DC09 to XBOX_NOT_LINKED,
+            0x8015DC0B to REGION_NOT_ALLOWED,
+            0x8015DC0E to AGE_TOO_YOUNG,
+            0x8015DC0C to AGE_NOT_VERIFIED,
+            0x8015DC0D to AGE_NOT_VERIFIED,
+
+            // Technical errors.
+            0x8015DC12 to SANDBOX_NOT_ALLOWED,
+            0x8015DC22 to USER_TOKEN_EXPIRED,
+            0x8015DC26 to USER_TOKEN_INVALID,
+            0x8015DC1F to SERVICE_TOKEN_EXPIRED,
+            0x8015DC27 to SERVICE_TOKEN_INVALID,
+            0x8015DC31 to OUTAGE,
+            0x8015DC32 to OUTAGE,
+        )
+
         /**
          * Converts an Xbox Live error code to one of the known enum values.
          *
@@ -105,52 +125,53 @@ enum class XboxLiveError {
          * @return the corresponding enum value for the error, or [UNKNOWN] if the error code cannot
          * be interpreted.
          */
-        internal fun fromXErr(xErr: Any?): XboxLiveError =
-            if (xErr is Number) when (xErr.toLong()) {
-                // User errors.
-                0x8015DC09 -> XBOX_NOT_LINKED
-                0x8015DC0B -> REGION_NOT_ALLOWED
-                0x8015DC0E -> AGE_TOO_YOUNG
-                0x8015DC0C, 0x8015DC0D -> AGE_NOT_VERIFIED
+        internal fun fromXErr(xErr: Any?): XboxLiveError {
+            val numericCode: Long? = when (xErr) {
+                // Return numeric codes as-is.
+                is Number -> xErr.toLong()
 
-                // Technical errors.
-                0x8015DC12 -> SANDBOX_NOT_ALLOWED
-                0x8015DC22 -> USER_TOKEN_EXPIRED
-                0x8015DC26 -> USER_TOKEN_INVALID
-                0x8015DC1F -> SERVICE_TOKEN_EXPIRED
-                0x8015DC27 -> SERVICE_TOKEN_INVALID
-                0x8015DC31, 0x8015DC32 -> OUTAGE
+                // Parse string error codes as numbers.
+                is String -> try {
+                    xErr.toLong()
+                } catch (cause: NumberFormatException) {
+                    null
+                }
 
-                // Fallback error.
-                else -> UNKNOWN
-            } else UNKNOWN
+                // Anything else should be considered invalid, and thus null.
+                else -> null
+            }
+
+            return errorsByCode[numericCode] ?: UNKNOWN
+        }
+
+        /**
+         * Interprets the response as an Xbox Live error, if possible.
+         *
+         * If the response doesn't represent an error, `null` is returned.
+         */
+        internal val Response.xboxLiveError: XboxLiveError?
+            get() {
+                if (isSuccess) return null
+
+                // XErr can either be a header or body field.
+                val xErr = headers["XErr"] ?: try {
+                    this.asJsonObject()["XErr"]
+                } catch (cause: JsonMappingException) {
+                    null
+                }
+
+                return when {
+                    // Xbox returned a readable error message.
+                    xErr != null -> fromXErr(xErr)
+                    // 400 indicates that the token is malformed.
+                    status == 400 -> MICROSOFT_TOKEN_INVALID
+                    // 401 indicates that the token is valid, but expired.
+                    status == 401 -> MICROSOFT_TOKEN_EXPIRED
+                    // Fall-back reason.
+                    else -> UNKNOWN
+                }
+            }
     }
+
+
 }
-
-/**
- * Interprets the response as an Xbox Live error, if possible.
- *
- * If the response doesn't represent an error, `null` is returned.
- */
-internal val Response.xboxLiveError: XboxLiveError?
-    get() {
-        if (isSuccess) return null
-
-        // XErr can either be a header or body field.
-        val xErr = headers["XErr"] ?: try {
-            this.asJsonObject()["XErr"]
-        } catch (cause: JsonMappingException) {
-            null
-        }
-
-        return when {
-            // Xbox returned a readable error message.
-            xErr != null -> XboxLiveError.fromXErr(xErr)
-            // 400 indicates that the token is malformed.
-            status == 400 -> XboxLiveError.MICROSOFT_TOKEN_INVALID
-            // 401 indicates that the token is valid, but expired.
-            status == 401 -> XboxLiveError.MICROSOFT_TOKEN_EXPIRED
-            // Fall-back reason.
-            else -> XboxLiveError.UNKNOWN
-        }
-    }

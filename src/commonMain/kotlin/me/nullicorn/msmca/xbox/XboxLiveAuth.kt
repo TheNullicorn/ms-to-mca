@@ -5,6 +5,7 @@ import me.nullicorn.msmca.http.BuiltInHttpClient
 import me.nullicorn.msmca.http.HttpClient
 import me.nullicorn.msmca.http.HttpException
 import me.nullicorn.msmca.json.JsonMappingException
+import me.nullicorn.msmca.xbox.XboxLiveError.Companion.xboxLiveError
 
 /**
  * Provides methods for authenticating with Xbox Live services.

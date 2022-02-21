@@ -1,8 +1,8 @@
 package me.nullicorn.msmca.mock
 
-import me.nullicorn.msmca.http.Headers
 import me.nullicorn.msmca.http.MockHttpClient
 import me.nullicorn.msmca.http.Response
+import me.nullicorn.msmca.xbox.XboxLiveError
 
 /**
  * Sample HTTP responses used to test how the library responds to various inputs from Microsoft and
@@ -17,8 +17,38 @@ object MockResponses {
      */
     object Xbox {
 
-        val VALID = validExcept {
+        /**
+         * Mocks a typical response from an Xbox Service, which the library should not raise any
+         * errors for.
+         */
+        fun valid() = validBut {
             // Don't modify; keeps the valid response as-is.
+        }
+
+        /**
+         * Modifies the [valid] response to include an `XErr` header, which the library should raise
+         * an error for, interpreting it as an [XboxLiveError].
+         *
+         * @param[error] The value to put in the `XErr` header.
+         */
+        fun withErrorCodeInHeader(error: Long?) = validBut { response ->
+            response.status = 403
+            response.headers["XErr"] = "$error"
+        }
+
+        /**
+         * Modifies the [valid] response to include an `XErr` field in the JSON body, which the
+         * library should raise an error for, interpreting it as an [XboxLiveError].
+         *
+         * @param[error] The value to put in the `XErr` field.
+         */
+        fun withErrorCodeInBody(error: Long?) = validBut { response ->
+            response.status = 403
+            response.body = """
+                {
+                    "XErr": $error
+                }
+            """.trimIndent()
         }
 
         /**
@@ -26,16 +56,17 @@ object MockResponses {
          * to be modified to test how the library response to various edge-cases in the response's
          * structure.
          *
-         * @param[modifier] A function that tweaks the response's status, headers, and body.
+         * @param[modifier] A function that tweaks any combination of the response's status,
+         * headers, and body.
          */
-        fun validExcept(modifier: (MutableResponse) -> Unit) =
+        fun validBut(modifier: (MutableResponse) -> Unit) =
             MutableResponse().apply(modifier).let {
                 Response(it.status, it.headers, it.body)
             }
 
         data class MutableResponse(
             var status: Int = 200,
-            var headers: Headers = mutableMapOf(),
+            var headers: MutableMap<String, String> = mutableMapOf(),
             var body: String = """
             {
                 "Token": "${MockTokens.SIMPLE}",
