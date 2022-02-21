@@ -26,15 +26,13 @@ object MockResponses {
          * headers, and body.
          */
         fun validBut(modifier: (MutableResponse) -> Unit) =
-            MutableResponse().apply(modifier).let {
-                Response(it.status, it.headers, it.body)
-            }
+            MutableResponse().apply(modifier).toResponse()
 
         /**
-         * Modifies the [valid] response to include an `XErr` header, which the library should raise
-         * an error for, interpreting it as an [XboxLiveError].
+         * Modifies an otherwise valid response to include an `XErr` header, which the library
+         * should raise an error for, interpreting the `XErr` as an [XboxLiveError] value.
          *
-         * @param[error] The value to put in the `XErr` header.
+         * @param[error] The value to put in the `XErr` field.
          */
         fun withErrorCodeInHeader(error: Long?) = validBut { response ->
             response.status = 403
@@ -42,8 +40,9 @@ object MockResponses {
         }
 
         /**
-         * Modifies the [valid] response to include an `XErr` field in the JSON body, which the
-         * library should raise an error for, interpreting it as an [XboxLiveError].
+         * Modifies an otherwise valid response to include an `XErr` field in the JSON body, which
+         * the library should raise an error for, interpreting the `XErr` as an [XboxLiveError]
+         * value.
          *
          * @param[error] The value to put in the `XErr` field.
          */
