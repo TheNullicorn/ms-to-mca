@@ -20,6 +20,12 @@ class XboxLiveAuthTests {
 
     @Test
     @JsName(ONE)
+    fun `should not throw when public constructor is called`() {
+        assertSucceeds { XboxLiveAuth() }
+    }
+
+    @Test
+    @JsName(TWO)
     fun `should throw AuthException if the request fails`() {
         http.nextThrows = true
 
@@ -33,7 +39,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(TWO)
+    @JsName(THREE)
     fun `should succeed if the response's status code is between 200 and 299`() {
         for (status in 200..299) {
             // Respond to all requests with a fake response.
@@ -53,7 +59,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(THREE)
+    @JsName(FOUR)
     fun `should throw XboxLiveAuthException if the response's status code is not between 200 and 299`() {
         for (status in 0..2000 step 3) {
             if (status in 200..299) continue
@@ -73,7 +79,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(FOUR)
+    @JsName(FIVE)
     fun `should throw AuthException if the response's body is not valid JSON`() {
         for (status in 200..299) {
             // Remove all quotes from the response JSON, thus invalidating it.
@@ -92,7 +98,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(FIVE)
+    @JsName(SIX)
     fun `should XboxLiveAuthException have the correct XboxLiveError if the response header has one`() {
         for ((numericCode, error) in XboxLiveError.errorsByCode) {
             http.nextResponse = MockResponses.Xbox.withErrorCodeInHeader(numericCode)
@@ -111,7 +117,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(SIX)
+    @JsName(SEVEN)
     fun `should XboxLiveAuthException have the correct XboxLiveError if the response body has one`() {
         for ((numericCode, error) in XboxLiveError.errorsByCode) {
             http.nextResponse = MockResponses.Xbox.withErrorCodeInBody(numericCode)
@@ -130,7 +136,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(SEVEN)
+    @JsName(EIGHT)
     fun `should XboxLiveAuthException's reason be MICROSOFT_TOKEN_INVALID if status is 401`() {
         http.nextResponse = MockResponses.Xbox.validBut { response ->
             response.status = 400
@@ -149,7 +155,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(EIGHT)
+    @JsName(NINE)
     fun `should XboxLiveAuthException's reason be MICROSOFT_TOKEN_EXPIRED if status is 401`() {
         http.nextResponse = MockResponses.Xbox.validBut { response ->
             response.status = 401
@@ -168,7 +174,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(NINE)
+    @JsName(TEN)
     fun `should throw AuthException if response doesn't include a token`() {
         http.nextResponse = MockResponses.Xbox.withoutTokenInBody()
 
@@ -182,7 +188,7 @@ class XboxLiveAuthTests {
     }
 
     @Test
-    @JsName(TEN)
+    @JsName(ELEVEN)
     fun `should throw AuthException if response doesn't include a user hash`() {
         for (response in MockResponses.Xbox.manyWithoutUserHashInBody()) {
             http.nextResponse = response

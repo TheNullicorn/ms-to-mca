@@ -57,3 +57,6 @@ const val NINE =
 
 const val TEN =
     "__________"
+
+const val ELEVEN =
+    "___________"
