@@ -22,7 +22,12 @@ class XboxLiveAuth internal constructor(private val httpClient: HttpClient) {
      *
      * @param[accessToken] A Microsoft access token, received from authentication.
      * @return credentials for the Xbox Live user.
-     * @throws[AuthException] if the authentication request fails or returns an error.
+     * @see[getServiceToken]
+     *
+     * @throws[AuthException] if the connection to the Xbox Live service fails.
+     * @throws[AuthException] if Xbox Live returns a malformed or incomplete response body.
+     * @throws[XboxLiveAuthException] if Xbox Live returns a status code that isn't between `200`
+     * and `299`, both included.
      */
     fun getUserToken(accessToken: String) = getCredentials(
         request = XboxLiveTokenRequest.user(accessToken)
@@ -33,11 +38,12 @@ class XboxLiveAuth internal constructor(private val httpClient: HttpClient) {
      *
      * @param[userToken] An Xbox Live user token.
      * @return a service token for the token owner.
-     * @throws[XboxLiveAuthException] if Xbox Live returned an error that should be displayed to the
-     * end user. Check the exception's [reason][XboxLiveAuthException.reason] for specifics.
-     * @throws[AuthException] if the authentication request fails or returns an error. This may
-     * include problems or messages that end-users should not be shown directly.
      * @see[getUserToken]
+     *
+     * @throws[AuthException] if the connection to the Xbox Live service fails.
+     * @throws[AuthException] if Xbox Live returns a malformed or incomplete response body.
+     * @throws[XboxLiveAuthException] if Xbox Live returns a status code that isn't between `200`
+     * and `299`, both included.
      */
     fun getServiceToken(userToken: String) = getCredentials(
         request = XboxLiveTokenRequest.xsts(userToken)
@@ -46,6 +52,11 @@ class XboxLiveAuth internal constructor(private val httpClient: HttpClient) {
     /**
      * Internal logic shared between [getUserToken] and [getServiceToken], which use the exact
      * format for both the request and response.
+     *
+     * @throws[AuthException] if the connection to the Xbox Live service fails.
+     * @throws[AuthException] if Xbox Live returns a malformed or incomplete response body.
+     * @throws[XboxLiveAuthException] if Xbox Live returns a status code that isn't between `200`
+     * and `299`, both included.
      */
     private fun getCredentials(request: XboxLiveTokenRequest): XboxLiveToken {
         val response = try {
