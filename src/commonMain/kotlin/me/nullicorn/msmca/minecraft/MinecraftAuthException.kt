@@ -6,7 +6,9 @@ import me.nullicorn.msmca.AuthException
  * Indicates that a Minecraft service returned an error.
  *
  * @param[type] The value of the "`errorType`" field returned by the service, if present. This is
- * typically *not* a user-friendly message.
+ * typically *not* a user-friendly message, but explains to the developer what went wrong.
  */
-class MinecraftAuthException(val type: String?, override val cause: Throwable? = null) :
-    AuthException("Xbox Live returned an error: $type")
+class MinecraftAuthException(
+    val type: String?,
+    cause: Throwable? = null,
+) : AuthException("Xbox Live returned an error: $type", cause)
