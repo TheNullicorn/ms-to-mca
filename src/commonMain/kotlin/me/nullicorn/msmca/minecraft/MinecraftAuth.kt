@@ -3,6 +3,7 @@ package me.nullicorn.msmca.minecraft
 import me.nullicorn.msmca.AuthException
 import me.nullicorn.msmca.http.BuiltInHttpClient
 import me.nullicorn.msmca.http.HttpClient
+import me.nullicorn.msmca.http.HttpException
 import me.nullicorn.msmca.json.JsonMappingException
 import me.nullicorn.msmca.xbox.XboxLiveAuth
 import me.nullicorn.msmca.xbox.XboxLiveToken
@@ -31,7 +32,7 @@ class MinecraftAuth internal constructor(private val httpClient: HttpClient) {
 
         val response = try {
             httpClient.send(request)
-        } catch (cause: me.nullicorn.msmca.http.HttpException) {
+        } catch (cause: HttpException) {
             // Caught if the request itself fails.
             throw AuthException("Failed to request user credentials", cause)
         }

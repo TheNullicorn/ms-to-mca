@@ -3,6 +3,7 @@ package me.nullicorn.msmca.xbox
 import me.nullicorn.msmca.AuthException
 import me.nullicorn.msmca.http.BuiltInHttpClient
 import me.nullicorn.msmca.http.HttpClient
+import me.nullicorn.msmca.http.HttpException
 import me.nullicorn.msmca.json.JsonMappingException
 
 /**
@@ -48,7 +49,7 @@ class XboxLiveAuth internal constructor(private val httpClient: HttpClient) {
     private fun getCredentials(request: XboxLiveTokenRequest): XboxLiveToken {
         val response = try {
             httpClient.send(request)
-        } catch (cause: me.nullicorn.msmca.http.HttpException) {
+        } catch (cause: HttpException) {
             // Caught if the request itself fails.
             throw AuthException("Failed to request user credentials", cause)
         }

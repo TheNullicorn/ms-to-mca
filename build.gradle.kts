@@ -28,17 +28,22 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {}
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
 
         val jvmMain by getting {
             dependencies {
-                // Used internally for JSON serializing & deserializing.
+                // For JSON serializing & deserializing.
                 implementation("com.google.code.gson:gson:2.8.9")
             }
         }
 
         val jsMain by getting {
             dependencies {
-                // Used internally to send requests to Microsoft/Minecraft services.
+                // For sending requests to Microsoft/Minecraft services.
                 implementation(npm("sync-fetch", "^0.3.1"))
             }
         }
