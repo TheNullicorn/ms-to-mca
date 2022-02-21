@@ -10,13 +10,15 @@ import me.nullicorn.msmca.http.Response
 data class MutableResponse(
     var status: Int = 200,
     var headers: MutableMap<String, String> = mutableMapOf(),
+    var token: String = MockTokens.SIMPLE,
+    var userHash: String = "0",
     var body: String = """
             {
-                "Token": "${MockTokens.SIMPLE}",
+                "Token": "$token",
                 "DisplayClaims": {
                     "xui": [
                         {
-                            "uhs": "0"
+                            "uhs": "$userHash"
                         }
                     ]
                 }

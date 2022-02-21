@@ -3,6 +3,7 @@ package me.nullicorn.msmca.mock
 import me.nullicorn.msmca.http.MockHttpClient
 import me.nullicorn.msmca.http.Response
 import me.nullicorn.msmca.xbox.XboxLiveError
+import me.nullicorn.msmca.xbox.XboxLiveToken
 
 /**
  * Sample HTTP responses used to test how the library responds to various inputs from Microsoft and
@@ -27,6 +28,15 @@ object MockResponses {
          */
         fun validBut(modifier: (MutableResponse) -> Unit) =
             MutableResponse().apply(modifier).toResponse()
+
+        /**
+         * Creates a valid response that the library should interpret as an [XboxLiveToken] equal to
+         * the supplied [token].
+         *
+         * @param[token] The token to mimic the response for.
+         */
+        fun validForToken(token: XboxLiveToken) =
+            MutableResponse(token = token.value, userHash = token.user)
 
         /**
          * Modifies an otherwise valid response to include an `XErr` header, which the library

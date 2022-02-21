@@ -60,3 +60,6 @@ const val TEN =
 
 const val ELEVEN =
     "___________"
+
+const val TWELVE =
+    "____________"
