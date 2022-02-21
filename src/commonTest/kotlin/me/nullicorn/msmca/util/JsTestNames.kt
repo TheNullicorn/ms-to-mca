@@ -51,3 +51,9 @@ const val SEVEN =
 
 const val EIGHT =
     "________"
+
+const val NINE =
+    "_________"
+
+const val TEN =
+    "__________"

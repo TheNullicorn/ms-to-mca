@@ -167,7 +167,35 @@ class XboxLiveAuthTests {
         assertEquals(XboxLiveError.MICROSOFT_TOKEN_EXPIRED, serviceException.reason)
     }
 
-    // TODO: 2/21/22 Test responses with 2xx responses but no token or user hash.
+    @Test
+    @JsName(NINE)
+    fun `should throw AuthException if response doesn't include a token`() {
+        http.nextResponse = MockResponses.Xbox.withoutTokenInBody()
+
+        assertFailsWith<AuthException> {
+            xbox.getUserToken(MockTokens.SIMPLE)
+        }
+
+        assertFailsWith<AuthException> {
+            xbox.getServiceToken(MockTokens.SIMPLE)
+        }
+    }
+
+    @Test
+    @JsName(TEN)
+    fun `should throw AuthException if response doesn't include a user hash`() {
+        for (response in MockResponses.Xbox.manyWithoutUserHashInBody()) {
+            http.nextResponse = response
+
+            assertFailsWith<AuthException> {
+                xbox.getUserToken(MockTokens.SIMPLE)
+            }
+
+            assertFailsWith<AuthException> {
+                xbox.getServiceToken(MockTokens.SIMPLE)
+            }
+        }
+    }
 
     // TODO: 2/21/22 Test that the returned XboxLiveToken has the correct token & user hash.
 }

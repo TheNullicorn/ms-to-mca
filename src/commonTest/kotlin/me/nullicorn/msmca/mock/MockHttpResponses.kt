@@ -18,12 +18,17 @@ object MockResponses {
     object Xbox {
 
         /**
-         * Mocks a typical response from an Xbox Service, which the library should not raise any
-         * errors for.
+         * Creates a valid response that shouldn't raise any errors from the library, but allows it
+         * to be modified to test how the library response to various edge-cases in the response's
+         * structure.
+         *
+         * @param[modifier] A function that tweaks any combination of the response's status,
+         * headers, and body.
          */
-        fun valid() = validBut {
-            // Don't modify; keeps the valid response as-is.
-        }
+        fun validBut(modifier: (MutableResponse) -> Unit) =
+            MutableResponse().apply(modifier).let {
+                Response(it.status, it.headers, it.body)
+            }
 
         /**
          * Modifies the [valid] response to include an `XErr` header, which the library should raise
@@ -52,33 +57,93 @@ object MockResponses {
         }
 
         /**
-         * Creates a valid response that shouldn't raise any errors from the library, but allows it
-         * to be modified to test how the library response to various edge-cases in the response's
-         * structure.
-         *
-         * @param[modifier] A function that tweaks any combination of the response's status,
-         * headers, and body.
+         * A response that is otherwise valid, but is missing the field with the necessary access
+         * token.
          */
-        fun validBut(modifier: (MutableResponse) -> Unit) =
-            MutableResponse().apply(modifier).let {
-                Response(it.status, it.headers, it.body)
-            }
-
-        data class MutableResponse(
-            var status: Int = 200,
-            var headers: MutableMap<String, String> = mutableMapOf(),
-            var body: String = """
-            {
-                "Token": "${MockTokens.SIMPLE}",
-                "DisplayClaims": {
-                    "xui": [
-                        {
-                            "uhs": "0"
-                        }
-                    ]
+        fun withoutTokenInBody() = validBut { response ->
+            response.body = """
+                {
+                    "DisplayClaims": {
+                        "xui": [
+                            {
+                                "uhs": "0"
+                            }
+                        ]
+                    }
                 }
+            """.trimIndent()
+        }
+
+        /**
+         * A series of responses that are otherwise valid, but are missing the field with the user's
+         * hash in the response body.
+         */
+        fun manyWithoutUserHashInBody(): List<Response> = arrayOf(
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}"
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": null
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": {}
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": {
+                        "NoXuiInSight": true
+                    }
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": {
+                        "xui": null
+                    }
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": {
+                        "xui": []
+                    }
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": {
+                        "xui": [ {} ]
+                    }
+                }
+            """,
+            """
+                {
+                    "Token": "${MockTokens.SIMPLE}",
+                    "DisplayClaims": {
+                        "xui": [
+                            {
+                                "NoHashHere": true
+                            }
+                        ]
+                    }
+                }
+            """,
+        ).map {
+            validBut { response ->
+                response.body = it.trimIndent()
             }
-        """.trimIndent(),
-        )
+        }
     }
 }
