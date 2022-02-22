@@ -38,9 +38,26 @@ internal interface JsonObjectView {
 
     /**
      * Shorthand function for `get(key) as? Number`.
+     *
+     * If the value is actually a string, this will also attempt to parse it as a [Double],
+     * returning `null` if it fails to do so.
+     *
      * @see[get]
      */
-    fun getNumber(key: String): Number? = get(key) as? Number
+    fun getNumber(key: String): Number? = when (val value = get(key)) {
+        // Return actual numbers as-is.
+        is Number -> value
+
+        // Attempt to parse the value as a number if it's a string,
+        is String -> try {
+            value.toDouble()
+        } catch (cause: NumberFormatException) {
+            null
+        }
+
+        // Otherwise, no dice.
+        else -> null
+    }
 
     /**
      * Shorthand function for `get(key) as? String`.
