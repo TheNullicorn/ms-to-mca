@@ -12,7 +12,8 @@ import me.nullicorn.msmca.xbox.XboxLiveToken
  * Provides methods for authenticating with Minecraft-related services.
  */
 class MinecraftAuth(private val httpClient: HttpClient) {
-    private val xbox = XboxLiveAuth()
+
+    private val xbox = XboxLiveAuth(httpClient)
 
     constructor() : this(BuiltInHttpClient)
 
