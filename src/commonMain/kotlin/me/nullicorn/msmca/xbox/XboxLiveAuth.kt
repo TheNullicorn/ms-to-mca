@@ -13,7 +13,7 @@ import me.nullicorn.msmca.xbox.XboxLiveError.Companion.xboxLiveError
  * @see <a href="https://wiki.vg/Microsoft_Authentication_Scheme">wiki.vg - Microsoft Authentication
  * Scheme</a> - heavily referenced when writing this class.
  */
-class XboxLiveAuth internal constructor(private val httpClient: HttpClient) {
+class XboxLiveAuth(private val httpClient: HttpClient) {
 
     constructor() : this(BuiltInHttpClient)
 

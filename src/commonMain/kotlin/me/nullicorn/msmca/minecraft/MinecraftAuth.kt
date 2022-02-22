@@ -11,7 +11,7 @@ import me.nullicorn.msmca.xbox.XboxLiveToken
 /**
  * Provides methods for authenticating with Minecraft-related services.
  */
-class MinecraftAuth internal constructor(private val httpClient: HttpClient) {
+class MinecraftAuth(private val httpClient: HttpClient) {
     private val xbox = XboxLiveAuth()
 
     constructor() : this(BuiltInHttpClient)
@@ -53,8 +53,7 @@ class MinecraftAuth internal constructor(private val httpClient: HttpClient) {
             MinecraftToken(response.asJsonObject())
         } catch (cause: JsonMappingException) {
             // Caught if the response fails to parse as JSON.
-            throw AuthException("Malformed response from Minecraft servers",
-                cause)
+            throw AuthException("Malformed response from Minecraft servers", cause)
         } catch (cause: IllegalArgumentException) {
             // Caught if the response parses, but doesn't contain required fields.
             throw AuthException("Minecraft did not send a valid token", cause)
