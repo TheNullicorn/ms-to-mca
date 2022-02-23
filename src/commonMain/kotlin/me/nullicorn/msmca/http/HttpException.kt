@@ -1,7 +1,8 @@
 package me.nullicorn.msmca.http
 
 /**
- * Indicates that an HTTP connection could not start or end for some [reason][message].
+ * Thrown when an HTTP exception closes unexpectedly, or when the server's response is not a valid
+ * HTTP response.
  */
 internal class HttpException(
     override val message: String?,

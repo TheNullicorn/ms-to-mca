@@ -1,7 +1,7 @@
 package me.nullicorn.msmca.http
 
 /**
- * Information sent to an HTTP server, typically expecting a [response][Response].
+ * An HTTP request with an optional JSON body.
  */
 interface Request {
     /**
@@ -26,6 +26,8 @@ interface Request {
 
     /**
      * Any extra information to include in the request. (Optional)
+     *
+     * This will be serialized as JSON if/when the request is sent.
      */
     val body: Map<String, Any?>?
         get() = null
