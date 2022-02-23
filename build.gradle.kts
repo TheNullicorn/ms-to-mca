@@ -1,7 +1,10 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    kotlin("multiplatform") version "1.6.10"
+    kotlin("multiplatform")
+
+    // Documentation generator.
+    id("org.jetbrains.dokka")
 }
 
 group = "me.nullicorn"
@@ -48,4 +51,8 @@ kotlin {
             }
         }
     }
+}
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(File(projectDir, "docs"))
 }

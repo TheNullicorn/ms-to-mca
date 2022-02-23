@@ -1,0 +1,68 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:me.nullicorn.msmca.http////PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/index.html
+$dokka.location:me.nullicorn.msmca.http/HttpClient///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-http-client/index.html
+$dokka.location:me.nullicorn.msmca.http/HttpClient/send/#me.nullicorn.msmca.http.Request/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-http-client/send.html
+$dokka.location:me.nullicorn.msmca.http/Request///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-request/index.html
+$dokka.location:me.nullicorn.msmca.http/Request/body/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-request/body.html
+$dokka.location:me.nullicorn.msmca.http/Request/headers/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-request/headers.html
+$dokka.location:me.nullicorn.msmca.http/Request/method/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-request/method.html
+$dokka.location:me.nullicorn.msmca.http/Request/url/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-request/url.html
+$dokka.location:me.nullicorn.msmca.http/Response///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-response/index.html
+$dokka.location:me.nullicorn.msmca.http/Response/Response/#kotlin.Int#kotlin.collections.Map[kotlin.String,kotlin.String]#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-response/-response.html
+$dokka.location:me.nullicorn.msmca.http/Response/body/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-response/body.html
+$dokka.location:me.nullicorn.msmca.http/Response/headers/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-response/headers.html
+$dokka.location:me.nullicorn.msmca.http/Response/isSuccess/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-response/is-success.html
+$dokka.location:me.nullicorn.msmca.http/Response/status/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.http/-response/status.html
+$dokka.location:me.nullicorn.msmca.minecraft////PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/index.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/index.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/MinecraftAuth/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/-minecraft-auth.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/MinecraftAuth/#me.nullicorn.msmca.http.HttpClient/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/-minecraft-auth.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/login/#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/login.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/login/#me.nullicorn.msmca.xbox.XboxLiveToken/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/login.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuthException///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth-exception/index.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuthException/MinecraftAuthException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth-exception/-minecraft-auth-exception.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuthException/type/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth-exception/type.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/index.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken/MinecraftToken/#kotlin.String#kotlin.String#kotlin.String#kotlin.Int/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/-minecraft-token.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken/duration/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/duration.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken/toString/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/to-string.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken/type/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/type.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken/user/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/user.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftToken/value/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-token/value.html
+$dokka.location:me.nullicorn.msmca.xbox////PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuth///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuth/XboxLiveAuth/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth/-xbox-live-auth.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuth/XboxLiveAuth/#me.nullicorn.msmca.http.HttpClient/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth/-xbox-live-auth.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuth/getServiceToken/#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth/get-service-token.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuth/getUserToken/#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth/get-user-token.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuthException///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth-exception/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuthException/XboxLiveAuthException/#me.nullicorn.msmca.xbox.XboxLiveError/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth-exception/-xbox-live-auth-exception.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveAuthException/reason/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-auth-exception/reason.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.AGE_NOT_VERIFIED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-a-g-e_-n-o-t_-v-e-r-i-f-i-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.AGE_TOO_YOUNG///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-a-g-e_-t-o-o_-y-o-u-n-g/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.MICROSOFT_TOKEN_EXPIRED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-m-i-c-r-o-s-o-f-t_-t-o-k-e-n_-e-x-p-i-r-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.MICROSOFT_TOKEN_INVALID///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-m-i-c-r-o-s-o-f-t_-t-o-k-e-n_-i-n-v-a-l-i-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.OUTAGE///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-o-u-t-a-g-e/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.REGION_NOT_ALLOWED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-r-e-g-i-o-n_-n-o-t_-a-l-l-o-w-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.SANDBOX_NOT_ALLOWED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-s-a-n-d-b-o-x_-n-o-t_-a-l-l-o-w-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.SERVICE_TOKEN_EXPIRED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-s-e-r-v-i-c-e_-t-o-k-e-n_-e-x-p-i-r-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.SERVICE_TOKEN_INVALID///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-s-e-r-v-i-c-e_-t-o-k-e-n_-i-n-v-a-l-i-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.UNKNOWN///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-u-n-k-n-o-w-n/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.USER_TOKEN_EXPIRED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-u-s-e-r_-t-o-k-e-n_-e-x-p-i-r-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.USER_TOKEN_INVALID///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-u-s-e-r_-t-o-k-e-n_-i-n-v-a-l-i-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError.XBOX_NOT_LINKED///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/-x-b-o-x_-n-o-t_-l-i-n-k-e-d/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveError///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-error/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveToken///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-token/index.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveToken/XboxLiveToken/#kotlin.String#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-token/-xbox-live-token.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveToken/toString/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-token/to-string.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveToken/user/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-token/user.html
+$dokka.location:me.nullicorn.msmca.xbox/XboxLiveToken/value/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.xbox/-xbox-live-token/value.html
+$dokka.location:me.nullicorn.msmca////PointingToDeclaration/ms-to-mca/me.nullicorn.msmca/index.html
+$dokka.location:me.nullicorn.msmca/AuthException///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca/-auth-exception/index.html
+$dokka.location:me.nullicorn.msmca/AuthException/AuthException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca/-auth-exception/-auth-exception.html
+me.nullicorn.msmca
+me.nullicorn.msmca.http
+me.nullicorn.msmca.minecraft
+me.nullicorn.msmca.xbox
+
