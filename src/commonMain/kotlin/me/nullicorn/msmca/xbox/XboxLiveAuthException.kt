@@ -3,9 +3,12 @@ package me.nullicorn.msmca.xbox
 import me.nullicorn.msmca.AuthException
 
 /**
- * Indicates that an Xbox Live service returned an error code.
+ * Thrown when an Xbox Live service returns a valid response, but one that indicates an error.
  *
- * The [reason] value can be used to present a message to the end user.
+ * It's recommended to display the [reason] to users in a friendly format to help them troubleshoot
+ * the issue. It may often be due to user error, or a server issue out of the user's control.
+ *
+ * @param[reason] The error returned by the service.
  */
 class XboxLiveAuthException(val reason: XboxLiveError = XboxLiveError.UNKNOWN) :
     AuthException("Xbox Live returned an error: $reason")

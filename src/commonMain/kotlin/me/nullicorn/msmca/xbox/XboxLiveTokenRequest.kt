@@ -4,6 +4,7 @@ import me.nullicorn.msmca.http.Request
 
 /**
  * Internal request used to authenticate & generate an Xbox Live API token.
+ *
  * @param[context] The Xbox Live API to use, such as `user` or `xsts`.
  * @param[endpoint] The API endpoint to send the request to.
  * @param[relyingParty] The URI of the third party that the token is intended for.

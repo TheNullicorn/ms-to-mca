@@ -10,6 +10,9 @@ import me.nullicorn.msmca.xbox.XboxLiveError.Companion.xboxLiveError
 /**
  * Provides methods for authenticating with Xbox Live services.
  *
+ * @param[httpClient] A custom HTTP client implementation, used to send requests to Xbox Live
+ * services. If excluded, the library's builtin client will be used.
+ *
  * @see <a href="https://wiki.vg/Microsoft_Authentication_Scheme">wiki.vg - Microsoft Authentication
  * Scheme</a> - heavily referenced when writing this class.
  */

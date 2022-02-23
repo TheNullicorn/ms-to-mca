@@ -4,10 +4,11 @@ import me.nullicorn.msmca.http.Response
 import me.nullicorn.msmca.json.JsonMappingException
 
 /**
- * Known error codes that can be received from Xbox Live APIs.
+ * Known error codes that can be returned from Xbox Live services.
  *
- * The enum provides abstraction over the raw error codes, especially for adding custom error
- * messages and i18n.
+ * If one is received, it's recommended to display it to users in a friendly format to help them
+ * troubleshoot the issue. It may often be the result of user error, or possibly a server issue that
+ * is out of the user's control.
  */
 enum class XboxLiveError {
     /**
@@ -172,6 +173,4 @@ enum class XboxLiveError {
                 }
             }
     }
-
-
 }
