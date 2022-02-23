@@ -1,4 +1,7 @@
+# Project Files
 .idea
 .gradle
+
+# Build Files
 build
 **/kotlin-js-store

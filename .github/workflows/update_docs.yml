@@ -23,5 +23,5 @@ jobs:
       - name: Publish HTML docs
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
-          folder: docs
+          folder: build/dokka/html
           branch: gh-pages

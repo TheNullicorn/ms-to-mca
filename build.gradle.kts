@@ -54,5 +54,24 @@ kotlin {
 }
 
 tasks.dokkaHtml.configure {
-    outputDirectory.set(File(projectDir, "docs"))
+    dokkaSourceSets {
+        val commonMain by getting {
+            val dokkaBase = File(projectDir, "src/commonMain/resources")
+
+            // Code snippets available to the @sample tag in KDoc.
+            val sampleFiles = File(dokkaBase, "samples")
+                .walk()
+                .maxDepth(1)
+                .filter { it.extension == "kt" }
+
+            // Package-level documentation.
+            val packageDocFiles = File(dokkaBase, "package_docs")
+                .walk()
+                .maxDepth(1)
+                .filter { it.extension == "md" }
+
+            samples.from(*sampleFiles.toList().toTypedArray())
+            includes.from(*packageDocFiles.toList().toTypedArray())
+        }
+    }
 }
