@@ -17,17 +17,26 @@ data class MinecraftToken(
     val user: String,
     val duration: Int,
 ) {
-    internal constructor(json: JsonObjectView) : this(
-        type = json.getString("type") ?: "Bearer",
+    /**
+     * Deserializes a JSON token received from Minecraft's Xbox login endpoint (see below).
+     *
+     * ```text
+     * POST https://api.minecraftservices.com/authentication/login_with_xbox
+     * ```
+     *
+     * @throws[IllegalArgumentException] if the [responseJson] is missing any required fields.
+     */
+    internal constructor(responseJson: JsonObjectView) : this(
+        type = responseJson.getString("type") ?: "Bearer",
 
-        value = json.getString("access_token")
-            ?: throw IllegalArgumentException("Token has no value"),
+        value = responseJson.getString("access_token")
+            ?: throw IllegalArgumentException("Token's value is missing"),
 
-        user = json.getString("username")
-            ?: throw IllegalArgumentException("Token has no intended user"),
+        user = responseJson.getString("username")
+            ?: throw IllegalArgumentException("Token's user ID is missing"),
 
-        duration = json.getNumber("expires_in")?.toInt()
-            ?: throw IllegalArgumentException("Token has no duration value")
+        duration = responseJson.getNumber("expires_in")?.toInt()
+            ?: throw IllegalArgumentException("Token's duration is missing")
     )
 
     // Omit the token's "value" to prevent someone from accidentally logging it.

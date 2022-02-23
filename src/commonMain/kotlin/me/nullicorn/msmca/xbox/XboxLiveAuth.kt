@@ -75,21 +75,14 @@ class XboxLiveAuth(private val httpClient: HttpClient) {
             response.asJsonObject()
         } catch (cause: JsonMappingException) {
             // Caught if the response cannot be parsed as JSON.
-            throw AuthException("Malformed response from Xbox servers", cause)
+            throw AuthException("Malformed response from Xbox Live service", cause)
         }
 
-        // Get the user/service token from the response.
-        val token: String = respJson["Token"] as? String
-            ?: throw AuthException("Xbox did not send an access token, or it was not a string")
-
-        // Get the user hash from the response (from DisplayClaims.xui[0].uhs).
-        val userHash: String = respJson.getObject("DisplayClaims")
-            ?.getArray("xui")
-            ?.getObject(0)
-            ?.getString("uhs")
-            ?: throw AuthException("Xbox did not send a user hash, or it was not a string")
-
-        return XboxLiveToken(token, userHash)
+        return try {
+            XboxLiveToken(respJson)
+        } catch (cause: IllegalArgumentException) {
+            throw AuthException("Incomplete response from Xbox Live service", cause)
+        }
     }
 }
 
