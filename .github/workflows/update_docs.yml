@@ -1,0 +1,27 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Update Documentation Site
+
+# Trigger manually, or whenever the main branch is updated.
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v2.4.0
+          
+      - name: Generate HTML docs
+        run: ./gradlew dokkaHtml
+        
+      - name: Publish HTML docs
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          folder: docs
+          branch: gh-pages
