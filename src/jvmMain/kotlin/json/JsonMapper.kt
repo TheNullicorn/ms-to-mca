@@ -1,26 +1,20 @@
 package me.nullicorn.msmca.json
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
-import com.google.gson.JsonParser
+import com.github.cliftonlabs.json_simple.JsonException
+import com.github.cliftonlabs.json_simple.Jsoner
 
 internal actual object JsonMapper {
-    /**
-     * The local instance of [Gson][com.google.gson.Gson] used for converting objects to JSON strings.
-     */
-    private val gson = GsonBuilder().disableHtmlEscaping().create()
 
     actual fun parseObject(jsonString: String): JsonObjectView =
-        GsonJsonObjectView(jsonString.toJson())
+        SimpleJsonObjectView(jsonString.toJson())
 
     actual fun parseArray(jsonString: String): JsonArrayView =
-        GsonJsonArrayView(jsonString.toJson())
+        SimpleJsonArrayView(jsonString.toJson())
 
     actual fun stringify(input: Any?): String = try {
-        gson.toJson(input)
-    } catch (e: JsonParseException) {
-        throw JsonMappingException("Failed to stringify using Gson.toJson", e)
+        Jsoner.serialize(input)
+    } catch (cause: IllegalArgumentException) {
+        throw JsonMappingException("Cannot serialize ${input?.javaClass} as JSON")
     }
 }
 
@@ -32,16 +26,16 @@ internal actual object JsonMapper {
  * @throws[JsonMappingException] if the string does not represent valid JSON.
  * @throws[JsonMappingException] if the string, when parsed as JSON, is a different type than [T].
  */
-private inline fun <reified T : JsonElement> String.toJson(): T {
+private inline fun <reified T> String.toJson(): T {
     val parsed = try {
-        JsonParser.parseString(this)
-    } catch (e: JsonParseException) {
-        throw JsonMappingException("Failed to parse using JsonParser.parseString", e)
+        Jsoner.deserialize(this)
+    } catch (cause: JsonException) {
+        throw JsonMappingException("Failed to parse using JsonParser.parseString", cause)
     }
 
-    if (parsed !is T) {
-        throw JsonMappingException("Expected JSON to be ${T::class}, but got ${parsed.javaClass}")
-    }
+    if (parsed !is T) throw JsonMappingException(
+        "Expected JSON to be ${T::class.simpleName}, but got ${parsed.javaClass.simpleName}"
+    )
 
     return parsed
 }

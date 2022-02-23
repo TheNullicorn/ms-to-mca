@@ -37,7 +37,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 // For JSON serializing & deserializing.
-                implementation("com.google.code.gson:gson:2.9.0")
+                implementation("com.github.cliftonlabs:json-simple:4.0.0")
             }
         }
 
