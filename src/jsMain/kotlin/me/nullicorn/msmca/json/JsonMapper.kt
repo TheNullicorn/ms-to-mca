@@ -12,8 +12,8 @@ internal actual object JsonMapper {
 
     actual fun stringify(input: Any?): String = try {
         JSON.stringify(input)
-    } catch (e: Throwable) {
-        throw JsonMappingException("Failed to stringify using JSON.stringify", e)
+    } catch (cause: Throwable) {
+        throw JsonMappingException("Failed to stringify using JSON.stringify", cause)
     }
 }
 
@@ -28,8 +28,8 @@ internal actual object JsonMapper {
 private inline fun <reified T : Any> String.toJson(): T {
     val parsed = try {
         JSON.parse<T>(this)
-    } catch (e: Throwable) {
-        throw JsonMappingException("Failed to parse using JSON.parse", e)
+    } catch (cause: Throwable) {
+        throw JsonMappingException("Failed to parse using JSON.parse", cause)
     }
 
     return parsed
