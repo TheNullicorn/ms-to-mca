@@ -63,7 +63,16 @@ internal interface JsonObjectView {
      * Shorthand function for `get(key) as? String`.
      * @see[get]
      */
-    fun getString(key: String): String? = get(key) as? String
+    fun getString(key: String): String? = when (val value = get(key)) {
+        // Return actual strings as-is.
+        is String -> value
+
+        // Stringify numbers and booleans automatically.
+        is Number, is Boolean -> value.toString()
+
+        // Otherwise, no dice.
+        else -> null
+    }
 
     /**
      * Shorthand function for `get(key) as? Boolean`.
