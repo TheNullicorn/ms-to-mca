@@ -6,15 +6,30 @@ import me.nullicorn.msmca.http.HttpClient
 import me.nullicorn.msmca.http.HttpException
 import me.nullicorn.msmca.json.JsonMappingException
 import me.nullicorn.msmca.xbox.XboxLiveAuth
+import me.nullicorn.msmca.xbox.XboxLiveAuthException
 import me.nullicorn.msmca.xbox.XboxLiveToken
 
 /**
  * Provides methods for authenticating with Minecraft-related services.
+ *
+ * @param[httpClient] An HTTP client used to send requests to Minecraft's authentication service.
+ * @param[xboxClient] An Xbox Live authentication client, used by the [loginWithXbox] method.
  */
-class MinecraftAuth(private val httpClient: HttpClient) {
+class MinecraftAuth(private val httpClient: HttpClient, private val xboxClient: XboxLiveAuth) {
 
-    private val xbox = XboxLiveAuth(httpClient)
+    /**
+     * Creates a client that communicates with Minecraft's authentication service via the provided
+     * [httpClient].
+     *
+     * If the [loginWithXbox] method is used, requests to Xbox Services will be sent using that
+     * [httpClient] as well.
+     */
+    constructor(httpClient: HttpClient) : this(httpClient, XboxLiveAuth(httpClient))
 
+    /**
+     * Creates a client that communicates with Minecraft's authentication service via a builtin
+     * [HttpClient].
+     */
     constructor() : this(BuiltInHttpClient)
 
     /**
@@ -22,13 +37,16 @@ class MinecraftAuth(private val httpClient: HttpClient) {
      * token.
      *
      * @param[credentials] An active Xbox Live service token.
-     * @return a token used to authenticate with most Minecraft services.
+     * @return a token used to authenticate with protected Minecraft services.
+     * @see[loginWithMicrosoft]
      *
-     * @throws[MinecraftAuthException] if Minecraft returns an error message or code.
-     * @throws[AuthException] if the connection to Minecraft fails, or if the service returns a
-     * malformed response.
+     * @throws[AuthException] if the connection to Minecraft's authentication service fails.
+     * @throws[AuthException] if Minecraft's authentication service returns a malformed or
+     * incomplete response.
+     * @throws[MinecraftAuthException] if Minecraft's authentication service returns a status code
+     * that isn't between `200` and `299`, both included.
      */
-    fun login(credentials: XboxLiveToken): MinecraftToken {
+    fun loginWithXbox(credentials: XboxLiveToken): MinecraftToken {
         val request = MinecraftXboxTokenRequest(credentials)
 
         val response = try {
@@ -65,27 +83,33 @@ class MinecraftAuth(private val httpClient: HttpClient) {
      * Simplifies the login process by logging into Xbox Live internally, then exchanging that token
      * for a Minecraft access token.
      *
-     * @param[microsoftToken] A valid Microsoft access token.
+     * @param[microsoftToken] A valid access token for a Microsoft account.
      *
-     * @throws[AuthException] if Xbox Live returns an error code.
-     * @throws[AuthException] if Xbox Live or Minecraft fail to connect, or return a malformed
-     * response.
-     * @throws[MinecraftAuthException] if Minecraft returns an error code.
+     * @throws[AuthException] if the connection to Minecraft's authentication service fails.
+     * @throws[AuthException] if Minecraft's authentication service returns a malformed or
+     * incomplete response.
+     * @throws[AuthException] if the connection to the Xbox Live service fails.
+     * @throws[AuthException] if Xbox Live returns a malformed or incomplete response.
+     * @throws[XboxLiveAuthException] if Xbox Live returns a status code that isn't between `200`
+     * and `299`, both included.
+     * @throws[MinecraftAuthException] if Minecraft's authentication service returns a status code
+     * that isn't between `200` and `299`, both included.
+     *
      */
-    fun login(microsoftToken: String): MinecraftToken {
+    fun loginWithMicrosoft(microsoftToken: String): MinecraftToken {
 
         val userToken = try {
-            xbox.getUserToken(microsoftToken)
+            xboxClient.getUserToken(microsoftToken)
         } catch (cause: AuthException) {
             throw AuthException("Failed to fetch a user token", cause)
         }
 
         val xstsToken = try {
-            xbox.getServiceToken(userToken.value)
+            xboxClient.getServiceToken(userToken.value)
         } catch (cause: AuthException) {
             throw AuthException("Failed to fetch a service token", cause)
         }
 
-        return login(xstsToken)
+        return loginWithXbox(xstsToken)
     }
 }
