@@ -17,9 +17,10 @@ $dokka.location:me.nullicorn.msmca.http/Response/status/#/PointingToDeclaration/
 $dokka.location:me.nullicorn.msmca.minecraft////PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/index.html
 $dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/index.html
 $dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/MinecraftAuth/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/-minecraft-auth.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/MinecraftAuth/#me.nullicorn.msmca.http.HttpClient#me.nullicorn.msmca.xbox.XboxLiveAuth/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/-minecraft-auth.html
 $dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/MinecraftAuth/#me.nullicorn.msmca.http.HttpClient/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/-minecraft-auth.html
-$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/login/#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/login.html
-$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/login/#me.nullicorn.msmca.xbox.XboxLiveToken/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/login.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/loginWithMicrosoft/#kotlin.String/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/login-with-microsoft.html
+$dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuth/loginWithXbox/#me.nullicorn.msmca.xbox.XboxLiveToken/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth/login-with-xbox.html
 $dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuthException///PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth-exception/index.html
 $dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuthException/MinecraftAuthException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth-exception/-minecraft-auth-exception.html
 $dokka.location:me.nullicorn.msmca.minecraft/MinecraftAuthException/type/#/PointingToDeclaration/ms-to-mca/me.nullicorn.msmca.minecraft/-minecraft-auth-exception/type.html

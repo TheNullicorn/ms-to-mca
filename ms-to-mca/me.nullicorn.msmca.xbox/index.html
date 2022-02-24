@@ -7,7 +7,7 @@ const savedDarkMode = storage ? JSON.parse(storage) : false
 if(savedDarkMode === true){
     document.getElementsByTagName("html")[0].classList.add("theme-dark")
 }</script>
-<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><link href="../../styles/prism.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../scripts/prism.js" async="async"></script>  </head>
+<script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><link href="../../styles/prism.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../scripts/prism.js" async="async"></script>  </head>
   <body>
     <div class="navigation-wrapper" id="navigation-wrapper">
       <div id="leftToggler"><span class="icon-toggler"></span></div>
@@ -26,10 +26,84 @@ if(savedDarkMode === true){
           <div class="breadcrumbs"><a href="../../index.html">ms-to-mca</a>/<a href="index.html">me.nullicorn.msmca.xbox</a></div>
           <div class="cover ">
             <h1 class="cover"><span>Package me.</span><wbr></wbr><span>nullicorn.</span><wbr></wbr><span>msmca.</span><wbr></wbr><span>xbox</span></h1>
+            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><p class="paragraph">Tools for accessing the Xbox Live portion of the authentication process. For a less involved flow, see <a href="https://msmca.docs.nullicorn.me/ms-to-mca/me.nullicorn.msmca.minecraft">me.nullicorn.msmca.minecraft</a>.</p></div></div>
           </div>
           <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button></div>
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Samples">Samples</button></div>
             <div class="tabs-section-body">
+              <h2 class="">Samples</h2>
+              <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import me.nullicorn.msmca.AuthException
+import me.nullicorn.msmca.xbox.XboxLiveAuth
+import me.nullicorn.msmca.xbox.XboxLiveAuthException
+fun main() { 
+   //sampleStart 
+   /*
+ * Make sure you have a valid access token for a Microsoft account.
+ * ————————————————————————————————————————————————————————————————
+ * An easy way to get this is using the Microsoft Authentication Library (MSAL). It should
+ * look like a long string of random letters and numbers.
+ */
+val microsoftAccessToken = &quot;&lt;access token received from MSAL&gt;&quot;
+
+/*
+ * Create an Xbox Live authentication client.
+ * ——————————————————————————————————————————
+ * This class is pretty lightweight, but it's still good practice to only keep one instance
+ * around if you'll be making a lot of requests.
+ */
+val xbox = XboxLiveAuth()
+
+
+/*
+ * Exchange the Microsoft access token for an Xbox Live &quot;user token&quot;.
+ * ——————————————————————————————————————————————————————————————————
+ * An XboxLiveAuthException may be thrown in a number of cases, such as...
+ * - The token used is expired, or never was valid
+ * - The Microsoft account isn't linked to Xbox Live
+ * - The account's age is too young to access Xbox Live
+ * - Xbox Live is not available in the account's country
+ * - Xbox Live is experiencing an outage
+ * It's recommended you display that reason to the user, preferably in a readable format.
+ * You shouldn't need to log these exceptions.
+ *
+ * For more technical issues (typically related to the connection), an AuthException is
+ * thrown. If you encounter one of these, it's recommended you log the exception and display
+ * a more vague message to the user, since AuthExceptions cover a variety of issues.
+ */
+val xboxUserToken = try {
+    xbox.getUserToken(microsoftAccessToken)
+
+} catch (cause: XboxLiveAuthException) {
+    println(&quot;Failed to get user token; Xbox Live returned an error: ${cause.reason}&quot;)
+    return
+
+} catch (cause: AuthException) {
+    println(&quot;Failed to get user token; connection failed: ${cause.message}&quot;)
+    return
+}
+
+/*
+ * Similar to the previous method, but now we're exchanging the &quot;user token&quot; for a
+ * &quot;service token&quot;.
+ * ———————————————————————————————————————————————————————————————————————————————
+ * This token is what you'll send to Minecraft's servers in order to get a Minecraft access
+ * token, which you can finally use to access protected Minecraft services.
+ *
+ * For that side of things, see the samples in the &quot;me.nullicorn.msmca.minecraft&quot; package.
+ */
+val xboxServiceToken = try {
+    xbox.getServiceToken(xboxUserToken.value)
+
+} catch (cause: XboxLiveAuthException) {
+    println(&quot;Failed to get service token; Xbox Live returned an error: ${cause.reason}&quot;)
+    return
+
+} catch (cause: AuthException) {
+    println(&quot;Failed to get service token; connection failed: ${cause.message}&quot;)
+    return
+} 
+   //sampleEnd
+}</code></pre></div></div></div>
               <h2 class="">Types</h2>
               <div class="table" data-togglable="Types"><a data-name="-294811247%2FClasslikes%2F788909594" anchor-label="XboxLiveAuth" id="-294811247%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
@@ -56,7 +130,7 @@ if(savedDarkMode === true){
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-xbox-live-auth-exception/index.html">XboxLiveAuthException</a><span class="token punctuation">(</span>reason<span class="token operator">: </span><a href="-xbox-live-error/index.html">XboxLiveError</a><span class="token punctuation">)</span> : <a href="../me.nullicorn.msmca/-auth-exception/index.html">AuthException</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Indicates that an Xbox Live service returned an error code.</p></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-xbox-live-auth-exception/index.html">XboxLiveAuthException</a><span class="token punctuation">(</span>reason<span class="token operator">: </span><a href="-xbox-live-error/index.html">XboxLiveError</a><span class="token punctuation">)</span> : <a href="../me.nullicorn.msmca/-auth-exception/index.html">AuthException</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Thrown when an Xbox Live service returns a valid response, but one that indicates an error.</p></div></div></div>
                       </div>
                     </div>
                   </div>
@@ -71,7 +145,7 @@ if(savedDarkMode === true){
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-xbox-live-error/index.html">XboxLiveError</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-xbox-live-error/index.html">XboxLiveError</a><span class="token operator">&gt; </span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Known error codes that can be received from Xbox Live APIs.</p></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-xbox-live-error/index.html">XboxLiveError</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-xbox-live-error/index.html">XboxLiveError</a><span class="token operator">&gt; </span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Known error codes that can be returned from Xbox Live services.</p></div></div></div>
                       </div>
                     </div>
                   </div>
