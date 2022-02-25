@@ -27,7 +27,7 @@ class XboxLiveAuthTests {
     @Test
     @JsName(TWO)
     fun `should throw AuthException if the request fails`() {
-        http.nextThrows = true
+        http.throwOnNextXboxRequest = true
 
         assertFailsWith(AuthException::class) {
             xbox.getUserToken(MockTokens.SIMPLE)
@@ -44,9 +44,10 @@ class XboxLiveAuthTests {
         for (status in 200..299) {
             // Respond to all requests with a fake response.
             // Its status code is whichever one we're at in the loop.
-            http.nextResponse = MockResponses.Xbox.validBut { response ->
-                response.status = status
-            }
+            http.nextResponses[XboxLiveTokenRequest::class] =
+                MockResponses.Xbox.validBut { response ->
+                    response.status = status
+                }
 
             assertSucceeds("get user token when status=$status") {
                 xbox.getUserToken(MockTokens.SIMPLE)
@@ -64,7 +65,7 @@ class XboxLiveAuthTests {
         for (status in 0..2000 step 3) {
             if (status in 200..299) continue
 
-            http.nextResponse = MockResponses.Xbox.validBut { response ->
+            http.nextXboxResponse = MockResponses.Xbox.validBut { response ->
                 response.status = status
             }
 
@@ -83,7 +84,7 @@ class XboxLiveAuthTests {
     fun `should throw AuthException if the response's body is not valid JSON`() {
         for (status in 200..299) {
             // Remove all quotes from the response JSON, thus invalidating it.
-            http.nextResponse = MockResponses.Xbox.validBut { response ->
+            http.nextXboxResponse = MockResponses.Xbox.validBut { response ->
                 response.body = response.body.replace("\"", "")
             }
 
@@ -101,7 +102,7 @@ class XboxLiveAuthTests {
     @JsName(SIX)
     fun `should XboxLiveAuthException have the correct XboxLiveError if the response header has one`() {
         for ((numericCode, error) in XboxLiveError.errorsByCode) {
-            http.nextResponse = MockResponses.Xbox.withErrorCodeInHeader(numericCode)
+            http.nextXboxResponse = MockResponses.Xbox.withErrorCodeInHeader(numericCode)
 
             val userException = assertFailsWith<XboxLiveAuthException> {
                 xbox.getUserToken(MockTokens.SIMPLE)
@@ -120,7 +121,7 @@ class XboxLiveAuthTests {
     @JsName(SEVEN)
     fun `should XboxLiveAuthException have the correct XboxLiveError if the response body has one`() {
         for ((numericCode, error) in XboxLiveError.errorsByCode) {
-            http.nextResponse = MockResponses.Xbox.withErrorCodeInBody(numericCode)
+            http.nextXboxResponse = MockResponses.Xbox.withErrorCodeInBody(numericCode)
 
             val userException = assertFailsWith<XboxLiveAuthException> {
                 xbox.getUserToken(MockTokens.SIMPLE)
@@ -138,7 +139,7 @@ class XboxLiveAuthTests {
     @Test
     @JsName(EIGHT)
     fun `should XboxLiveAuthException's reason be MICROSOFT_TOKEN_INVALID if status is 401`() {
-        http.nextResponse = MockResponses.Xbox.validBut { response ->
+        http.nextXboxResponse = MockResponses.Xbox.validBut { response ->
             response.status = 400
         }
 
@@ -157,7 +158,7 @@ class XboxLiveAuthTests {
     @Test
     @JsName(NINE)
     fun `should XboxLiveAuthException's reason be MICROSOFT_TOKEN_EXPIRED if status is 401`() {
-        http.nextResponse = MockResponses.Xbox.validBut { response ->
+        http.nextXboxResponse = MockResponses.Xbox.validBut { response ->
             response.status = 401
         }
 
@@ -176,7 +177,7 @@ class XboxLiveAuthTests {
     @Test
     @JsName(TEN)
     fun `should throw AuthException if response doesn't include a token`() {
-        http.nextResponse = MockResponses.Xbox.withoutTokenInBody()
+        http.nextXboxResponse = MockResponses.Xbox.withoutTokenInBody()
 
         assertFailsWith<AuthException> {
             xbox.getUserToken(MockTokens.SIMPLE)
@@ -191,7 +192,7 @@ class XboxLiveAuthTests {
     @JsName(ELEVEN)
     fun `should throw AuthException if response doesn't include a user hash`() {
         for (response in MockResponses.Xbox.manyWithoutUserHashInBody()) {
-            http.nextResponse = response
+            http.nextXboxResponse = response
 
             assertFailsWith<AuthException> {
                 xbox.getUserToken(MockTokens.SIMPLE)
@@ -211,7 +212,7 @@ class XboxLiveAuthTests {
             value = MockTokens.SIMPLE,
             user = (PI * 100_000).toInt().toString(),
         )
-        http.nextResponse = MockResponses.Xbox.validForToken(userToken)
+        http.nextXboxResponse = MockResponses.Xbox.validForToken(userToken)
 
         val actualUserToken = xbox.getUserToken("my.access.token")
         assertEquals(userToken.value, actualUserToken.value)
@@ -224,7 +225,7 @@ class XboxLiveAuthTests {
             value = userToken.value.reversed(),
             user = userToken.user.reversed(),
         )
-        http.nextResponse = MockResponses.Xbox.validForToken(serviceToken)
+        http.nextXboxResponse = MockResponses.Xbox.validForToken(serviceToken)
 
         val actualServiceToken = xbox.getServiceToken("your.access.token")
         assertEquals(serviceToken.value, actualServiceToken.value)
