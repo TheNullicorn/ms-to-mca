@@ -5,7 +5,13 @@ plugins {
 
     // Documentation generator.
     id("org.jetbrains.dokka")
+
+    // Publishing to Sonatype & Maven Central.
+    id("java")
+    id("signing")
+    id("maven-publish")
 }
+apply(from = "gradle/publish.gradle.kts")
 
 group = "me.nullicorn"
 version = "0.0.1-SNAPSHOT"
