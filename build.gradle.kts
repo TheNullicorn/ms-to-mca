@@ -11,10 +11,12 @@ plugins {
     id("signing")
     id("maven-publish")
 }
-apply(from = "gradle/publish.gradle.kts")
 
 group = "me.nullicorn"
 version = "0.0.1-SNAPSHOT"
+
+// Must go after group & version or else it won't be able to access them.
+apply(from = "gradle/publish.gradle.kts")
 
 repositories {
     mavenCentral()
