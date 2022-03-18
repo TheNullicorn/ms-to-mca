@@ -21,6 +21,41 @@ I **strongly** recommend you provide a similar disclaimer to users logging into 
 
 Secondly, **<ins>this is NOT a Minecraft API library</ins>**. Its only function is exchanging Microsoft access tokens for Minecraft ones, which can be used to perform actions on behalf of a Minecraft account. To interface with the rest of Minecraft's online services you'll need a separate library of your choice.
 
+## Installation
+
+### Gradle
+
+#### Kotlin DSL
+
+```kotlin
+dependencies {
+    implementation("me.nullicorn:ms-to-mca:0.0.1")
+    // ...your other dependencies...
+}
+```
+
+#### Groovy DSL
+
+```groovy
+dependencies {
+    implementation 'me.nullicorn:ms-to-mca:0.0.1'
+    // ...your other dependencies...
+}
+```
+
+### Maven
+
+```xml
+<dependencies>
+    <dependency>
+      <groupId>me.nullicorn</groupId>
+      <artifactId>ms-to-mca</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <!-- ...your other dependencies... -->
+</dependencies>
+```
+
 ## Usage
 
 ### Quick Login
