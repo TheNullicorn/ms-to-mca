@@ -13,7 +13,7 @@ internal actual object BuiltInHttpClient : HttpClient {
     actual override fun send(request: Request): Response {
         val options = json(
             "method" to request.method,
-            "body" to JsonMapper.stringify(request.body.toJson()),
+            "body" to JsonMapper.stringify(request.body?.toJson()),
             "headers" to json(*request.headers.toList().toTypedArray())
         )
 
