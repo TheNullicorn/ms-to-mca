@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Update Documentation Site
 
 # Trigger manually, or whenever the main branch is updated.
@@ -16,6 +14,13 @@ jobs:
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v2.4.0
+
+      - name: Define OSSRH credentials
+        run: |
+          mkdir -p ~/.gradle
+          touch ~/.gradle/gradle.properties
+          echo 'ossrhUsername = ${{ secrets.OSSRH_USERNAME }}' >> ~/.gradle/gradle.properties
+          echo 'ossrhPassword = ${{ secrets.OSSRH_PASSWORD }}' >> ~/.gradle/gradle.properties
           
       - name: Generate HTML docs
         run: ./gradlew dokkaHtml

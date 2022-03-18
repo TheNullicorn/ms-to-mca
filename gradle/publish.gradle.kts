@@ -51,6 +51,8 @@ configure<PublishingExtension> {
             val projectUrl = "$authorUrl/$projectName"
 
             url.set("https://$projectUrl")
+            name.set(projectName)
+            description.set("Access a Minecraft account via Microsoft login")
 
             developers {
                 developer {

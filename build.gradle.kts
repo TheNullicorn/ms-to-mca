@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "me.nullicorn"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 // Must go after group & version or else it won't be able to access them.
 apply(from = "gradle/publish.gradle.kts")
